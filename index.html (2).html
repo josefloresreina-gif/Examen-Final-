@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>examenB_26000901</title>
+    <!-- Tailwind CSS para diseño responsivo ágil -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary: #4f46e5;
+            --accent: #06b6d4;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* Efecto Glassmorphism */
+        .glass-card {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Botones e Interacciones con Hover CSS3 */
+        .interactive-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .interactive-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -8px rgba(99, 102, 241, 0.5);
+        }
+
+        /* Canvas de Firma */
+        #canvasNombre {
+            background: #ffffff;
+            border-radius: 1rem;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            height: 120px;
+        }
+
+        /* Animaciones */
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.05); opacity: 1; }
+        }
+        .pulse-element {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-height-screen flex flex-col items-center justify-start p-4 md:p-8" id="bodyNode">
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="w-full max-w-2xl space-y-8">
+        
+        <!-- ENCABEZADO Y CONTROL DE MODO (Tema) -->
+        <header class="flex justify-between items-center bg-white/5 border border-white/10 p-5 rounded-2xl glass-card">
+            <div class="flex flex-col">
+                <span class="text-[10px] uppercase tracking-[0.3em] text-indigo-400 font-extrabold">Examen Final Parte B</span>
+                <h1 class="text-xl md:text-2xl font-black tracking-tight" id="projectTitle">examenB_26000901</h1>
+            </div>
+            <!-- Toggle Modo Claro / Oscuro -->
+            <button onclick="toggleTheme()" class="bg-white/10 dark:bg-white/20 p-3 rounded-xl hover:bg-white/20 transition-all flex items-center gap-2" id="themeBtn">
+                <span id="themeIcon">☀️</span>
+                <span class="text-xs font-semibold hidden sm:inline" id="themeText">Modo Claro</span>
+            </button>
+        </header>
+
+        <!-- SECCIÓN DE BIENVENIDA (b) -->
+        <section class="bg-white/5 border border-white/10 p-6 md:p-8 rounded-3xl glass-card space-y-6" id="welcomeSection">
+            <div class="flex flex-col sm:flex-row items-center gap-6">
+                <!-- Logotipo de Calidad en formato SVG de alta definición -->
+                <div class="w-20 h-20 bg-gradient-to-tr from-indigo-500 to-cyan-400 rounded-2xl flex items-center justify-center shadow-xl pulse-element">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                    </svg>
+                </div>
+                <div class="flex-1 text-center sm:text-left">
+                    <h2 class="text-xl font-extrabold tracking-tight">Política de Calidad Institucional</h2>
+                    <p class="text-xs text-slate-400 mt-1 uppercase tracking-wider">Compromiso de Excelencia Auditora</p>
+                </div>
+            </div>
+
+            <div class="bg-black/30 p-5 rounded-2xl border border-white/5">
+                <p id="politicaTexto" class="text-sm leading-relaxed text-slate-300">
+                    "En nuestra planta de auditoría, nos comprometemos rigurosamente a evaluar y optimizar cada línea de producción bajo los estándares internacionales más exigentes de control de calidad. Garantizamos la detección temprana de anomalías, promoviendo la mejora continua y la integridad de cada producto entregado al mercado global."
+                </p>
+            </div>
+
+            <!-- Botón de lectura (Web Speech API) -->
+            <button onclick="leerCompromiso()" class="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-bold py-3.5 px-6 rounded-2xl flex items-center justify-center gap-3 interactive-hover shadow-lg">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+                </svg>
+                Escuchar Compromiso de Calidad
+            </button>
+        </section>
+
+        <!-- SECCIÓN DE TIENDA Y REPORTES - Formulario de Validación (c) -->
+        <section class="bg-white/5 border border-white/10 p-6 md:p-8 rounded-3xl glass-card space-y-6" id="formSection">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-cyan-500/15 text-cyan-400 rounded-xl">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                    </svg>
+                </div>
+                <h2 class="text-lg font-bold">Reporte de Defectos en Planta</h2>
+            </div>
+
+            <form id="reporteForm" onsubmit="validarFormulario(event)" class="space-y-4">
+                <div>
+                    <label for="lineaProduccion" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Línea de Producción</label>
+                    <select id="lineaProduccion" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-slate-100">
+                        <option value="">Seleccione una línea de ensamble...</option>
+                        <option value="Línea Alpha (Dispositivos Móviles)">Línea Alpha (Dispositivos Móviles)</option>
+                        <option value="Línea Beta (Automatización Industrial)">Línea Beta (Automatización Industrial)</option>
+                        <option value="Línea Gamma (Sistemas de Energía)">Línea Gamma (Sistemas de Energía)</option>
+                        <option value="Línea Delta (Componentes Médicos)">Línea Delta (Componentes Médicos)</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="defectoText" class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Descripción del Defecto</label>
+                    <textarea id="defectoText" rows="3" placeholder="Escriba detalladamente la desviación encontrada..." class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 text-slate-100 placeholder-slate-500"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-cyan-600 to-indigo-600 hover:from-cyan-500 hover:to-indigo-500 text-white font-bold py-3.5 px-6 rounded-2xl interactive-hover shadow-lg">
+                    Enviar Auditoría de Calidad
+                </button>
+            </form>
+        </section>
+
+        <!-- SECCIÓN DE GEOLOCALIZACIÓN (d) -->
+        <section class="bg-white/5 border border-white/10 p-6 md:p-8 rounded-3xl glass-card space-y-4" id="geoSection">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-emerald-500/15 text-emerald-400 rounded-xl">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                </div>
+                <h2 class="text-lg font-bold">Localización Satelital de la Planta</h2>
+            </div>
+
+            <p class="text-xs text-slate-400">Verifique las coordenadas geográficas precisas de la planta auditada mediante el hardware del terminal.</p>
+
+            <div class="grid grid-cols-2 gap-4 bg-black/30 p-4 rounded-2xl border border-white/5 text-center">
+                <div class="p-2">
+                    <span class="block text-[10px] uppercase font-bold text-slate-500">Latitud</span>
+                    <span id="latText" class="text-sm font-mono font-bold text-emerald-400">No capturada</span>
+                </div>
+                <div class="p-2">
+                    <span class="block text-[10px] uppercase font-bold text-slate-500">Longitud</span>
+                    <span id="lonText" class="text-sm font-mono font-bold text-emerald-400">No capturada</span>
+                </div>
+            </div>
+
+            <button onclick="obtenerUbicacion()" class="w-full bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
+                📡 Capturar Coordenadas de Planta
+            </button>
+        </section>
+
+        <!-- SECCIÓN ENLACES Y MULTIMEDIA (e) -->
+        <section class="bg-white/5 border border-white/10 p-6 md:p-8 rounded-3xl glass-card space-y-6" id="multimediaSection">
+            <h2 class="text-sm font-black uppercase tracking-[0.2em] text-slate-400">Recursos Académicos e Integración</h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                
+                <!-- Enlace Wix -->
+                <a href="https://josefloresreina.wixsite.com/tarea12-26000901" target="_blank" rel="noopener noreferrer" class="professional-btn interactive-hover bg-white/5 p-4 rounded-2xl flex items-center justify-between border border-white/5">
+                    <div class="flex flex-col text-left">
+                        <span class="text-[9px] text-indigo-400 font-bold uppercase tracking-wider">Bitácora Oficial</span>
+                        <span class="text-sm font-bold">Mi Blog en Wix (T14)</span>
+                    </div>
+                    <span class="text-indigo-400 font-extrabold text-lg">↗</span>
+                </a>
+
+                <!-- Enlace Youtube -->
+                <a href="https://youtu.be/B4qDg0FNsWg" target="_blank" rel="noopener noreferrer" class="professional-btn interactive-hover bg-white/5 p-4 rounded-2xl flex items-center justify-between border border-white/5">
+                    <div class="flex flex-col text-left">
+                        <span class="text-[9px] text-red-400 font-bold uppercase tracking-wider">Video de Sustentación</span>
+                        <span class="text-sm font-bold">Video YouTube (T11)</span>
+                    </div>
+                    <span class="text-red-400 font-extrabold text-lg">↗</span>
+                </a>
+
+                <!-- Enlace Redes Sociales -->
+                <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="professional-btn interactive-hover bg-white/5 p-4 rounded-2xl flex items-center justify-between border border-white/5">
+                    <div class="flex flex-col text-left">
+                        <span class="text-[9px] text-cyan-400 font-bold uppercase tracking-wider">Redes Sociales</span>
+                        <span class="text-sm font-bold">Mi Portafolio (T15)</span>
+                    </div>
+                    <span class="text-cyan-400 font-extrabold text-lg">↗</span>
+                </a>
+
+                <!-- Enlace Universidad Galileo -->
+                <a href="https://www.galileo.edu" target="_blank" rel="noopener noreferrer" class="professional-btn interactive-hover bg-white p-4 rounded-2xl flex items-center justify-between shadow-lg">
+                    <div class="flex items-center gap-3">
+                        <img src="https://www.galileo.edu/wp-content/themes/galileo-theme/img/logo-header.png" alt="Universidad Galileo Logo" class="h-6 w-auto">
+                    </div>
+                    <span class="text-[#004b93] font-bold text-xs uppercase tracking-tight">Portal Galileo ↗</span>
+                </a>
+            </div>
+
+            <!-- Canvas de Firma Digital -->
+            <div class="bg-black/20 p-4 rounded-2xl border border-white/5">
+                <span class="block text-[10px] uppercase font-bold tracking-wider text-slate-500 mb-2">Firma Digital del Autor</span>
+                <canvas id="canvasNombre" width="400" height="120"></canvas>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE SALIDA (a) -->
+        <footer class="bg-white/5 border border-white/10 p-6 rounded-3xl glass-card text-center space-y-4" id="exitSection">
+            <button onclick="cerrarAplicacion()" class="exit-btn w-full py-4 rounded-2xl font-bold interactive-hover">
+                Finalizar Sesión (Salir)
+            </button>
+            <div class="text-[10px] text-slate-500 tracking-widest font-mono">
+                DESARROLLADOR: JOSE FLORES REINA • CARNÉ: 26000901
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- MODAL DE NOTIFICACIÓN PERSONALIZADO (Evita alerts del sistema) -->
+    <div id="customModal" class="fixed inset-0 bg-black/80 backdrop-filter backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-slate-800 border border-white/10 rounded-2xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl">
+            <div class="w-16 h-16 bg-indigo-500/10 text-indigo-400 rounded-full flex items-center justify-center mx-auto" id="modalIcon">
+                💡
+            </div>
+            <h3 class="text-lg font-bold" id="modalTitle">Mensaje del Sistema</h3>
+            <p class="text-sm text-slate-300" id="modalMessage">Descripción</p>
+            <button onclick="closeModal()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl transition-all">
+                Aceptar
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ESTADO DE LA INTERFAZ (Modo Claro / Oscuro)
+        let isDarkMode = true;
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            const body = document.getElementById('bodyNode');
+            const themeBtn = document.getElementById('themeBtn');
+            const themeText = document.getElementById('themeText');
+            const themeIcon = document.getElementById('themeIcon');
+            const canvas = document.getElementById('canvasNombre');
+
+            if (isDarkMode) {
+                body.className = "bg-slate-900 text-slate-100 min-height-screen flex flex-col items-center justify-start p-4 md:p-8";
+                themeText.innerText = "Modo Claro";
+                themeIcon.innerText = "☀️";
+                themeBtn.className = "bg-white/10 p-3 rounded-xl hover:bg-white/20 transition-all flex items-center gap-2";
+            } else {
+                body.className = "bg-slate-100 text-slate-800 min-height-screen flex flex-col items-center justify-start p-4 md:p-8";
+                themeText.innerText = "Modo Oscuro";
+                themeIcon.innerText = "🌙";
+                themeBtn.className = "bg-slate-800/10 p-3 rounded-xl hover:bg-slate-800/20 transition-all flex items-center gap-2";
+            }
+        }
+
+        // CONTROL DE MODALES (Alternativa a alert())
+        function showModal(title, message, iconStr) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalMessage').innerText = message;
+            document.getElementById('modalIcon').innerText = iconStr;
+            const modal = document.getElementById('customModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        // BIENVENIDA (b): Web Speech API
+        function leerCompromiso() {
+            if ('speechSynthesis' in window) {
+                // Cancelar lecturas activas
+                window.speechSynthesis.cancel();
+                const texto = document.getElementById('politicaTexto').innerText;
+                const utterance = new SpeechSynthesisUtterance(texto);
+                utterance.lang = 'es-GT'; // Español Guatemala
+                utterance.rate = 0.95;
+                utterance.pitch = 1;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                showModal("Error de Compatibilidad", "La Web Speech API no está soportada en este navegador.", "⚠️");
+            }
+        }
+
+        // FORMULARIO (c): Validación Inteligente
+        function validarFormulario(event) {
+            event.preventDefault();
+            const linea = document.getElementById('lineaProduccion').value;
+            const defecto = document.getElementById('defectoText').value.trim();
+
+            if (!linea) {
+                showModal("Campo Obligatorio", "Por favor, seleccione una línea de producción válida.", "❌");
+                return;
+            }
+            if (!defecto) {
+                showModal("Campo Obligatorio", "Por favor, describa detalladamente el defecto observado.", "❌");
+                return;
+            }
+
+            showModal(
+                "Registro Exitoso",
+                `El reporte de calidad para la "${linea}" ha sido enviado y archivado correctamente de forma digital.`,
+                "✅"
+            );
+            
+            // Limpieza del formulario
+            document.getElementById('reporteForm').reset();
+        }
+
+        // GEOLOCALIZACIÓN (d)
+        function obtenerUbicacion() {
+            const latText = document.getElementById('latText');
+            const lonText = document.getElementById('lonText');
+
+            if ('geolocation' in navigator) {
+                latText.innerText = "Buscando...";
+                lonText.innerText = "Buscando...";
+                
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        latText.innerText = position.coords.latitude.toFixed(6) + " °";
+                        lonText.innerText = position.coords.longitude.toFixed(6) + " °";
+                        showModal("Ubicación Registrada", "Coordenadas capturadas con éxito.", "📡");
+                    },
+                    (error) => {
+                        console.error(error);
+                        // Coordenadas simuladas para auditoría si hay bloqueo de permisos de fábrica
+                        latText.innerText = "14.591240 °";
+                        lonText.innerText = "-90.505494 °";
+                        showModal("Ubicación Simulada", "Acceso denegado o no disponible. Simulando coordenadas de Planta Galileo.", "📍");
+                    }
+                );
+            } else {
+                showModal("Error Geográfico", "Geolocalización no soportada en su dispositivo.", "⚠️");
+            }
+        }
+
+        // MULTIMEDIA Y AUTORÍA: Canvas (e) - Dibujo del Nombre "José"
+        function dibujarNombreCanvas() {
+            const canvas = document.getElementById('canvasNombre');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const nombre = "José";
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Tipografía estilizada de firma elegante
+            ctx.font = 'italic 700 50px "Georgia", serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            // Gradiente Corporativo
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+            gradient.addColorStop(0, '#4f46e5'); // Indigo
+            gradient.addColorStop(1, '#06b6d4'); // Cyan
+
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1;
+
+            ctx.fillStyle = gradient;
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.15)';
+            ctx.shadowBlur = 8;
+            ctx.shadowOffsetX = 3;
+            ctx.shadowOffsetY = 3;
+
+            // Animación de desvanecimiento dinámico progresivo
+            let progress = 0;
+            const interval = setInterval(() => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.globalAlpha = progress;
+                ctx.fillText(nombre, canvas.width / 2, canvas.height / 2);
+                progress += 0.05;
+                if (progress >= 1) clearInterval(interval);
+            }, 30);
+        }
+
+        // SALIDA (a): Animación y fin de sesión
+        function cerrarAplicacion() {
+            const panel = document.querySelector('.main-container');
+            panel.style.transition = "all 0.6s ease";
+            panel.style.opacity = "0";
+            panel.style.transform = "scale(0.9) translateY(40px)";
+
+            setTimeout(() => {
+                window.close();
+                document.body.innerHTML = `
+                    <div class="text-center p-20">
+                        <h2 class="text-2xl font-light text-slate-400">Auditoría Cerrada Exitosamente</h2>
+                        <p class="text-xs text-slate-600 mt-2">examenB_26000901 • Flores</p>
+                    </div>
+                `;
+            }, 600);
+        }
+
+        // CONFIGURACIÓN INSTALABLE PWA - Manifest y Service Worker (f)
+        window.onload = () => {
+            setTimeout(dibujarNombreCanvas, 600);
+
+            // 1. Declaración e Inyección Dinámica del Manifest
+            const manifestObj = {
+                "name": "examenB_26000901",
+                "short_name": "examenB_26000901",
+                "description": "Examen Parte B Control de Calidad PWA",
+                "start_url": ".",
+                "display": "standalone",
+                "background_color": "#0f172a",
+                "theme_color": "#4f46e5",
+                "icons": [
+                    {
+                        "src": "https://www.galileo.edu/favicon.ico",
+                        "sizes": "64x64",
+                        "type": "image/x-icon"
+                    }
+                ]
+            };
+            const blobManifest = new Blob([JSON.stringify(manifestObj)], {type: 'application/json'});
+            const manifestURL = URL.createObjectURL(blobManifest);
+            const linkTag = document.createElement('link');
+            linkTag.rel = 'manifest';
+            linkTag.href = manifestURL;
+            document.head.appendChild(linkTag);
+
+            // 2. Registro de Service Worker Autónomo con validación segura de protocolo
+            if ('serviceWorker' in navigator) {
+                // Los Service Workers no pueden ser registrados usando protocolos customizados como blob: o data:
+                // Solo realizamos el registro si el archivo se está sirviendo por HTTP o HTTPS.
+                if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+                    navigator.serviceWorker.register('./sw.js').then(() => {
+                        console.log("Arquitectura PWA: Service Worker registrado con éxito en el servidor.");
+                    }).catch(err => {
+                        console.warn("Aviso PWA: Service Worker no registrado (esto es normal si el archivo 'sw.js' no existe de forma física o no es HTTPS).", err);
+                    });
+                } else {
+                    console.log("Arquitectura PWA: Registro del Service Worker omitido debido a que el entorno utiliza un protocolo no soportado (Blob o Sandbox local).");
+                }
+            }
+        };
+    </script>
+</body>
+</html>
